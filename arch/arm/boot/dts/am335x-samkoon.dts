@@ -146,6 +146,13 @@
 			AM33XX_PADCONF(AM335X_PIN_LCD_AC_BIAS_EN, PIN_OUTPUT, MUX_MODE0)
 		>;
 	};
+
+	i2c0_pins: pinmux_i2c0_pins {
+		pinctrl-single,pins = <
+			AM33XX_PADCONF(AM335X_PIN_I2C0_SDA, PIN_INPUT_PULLUP, MUX_MODE0)	/* i2c0_sda.i2c0_sda */
+			AM33XX_PADCONF(AM335X_PIN_I2C0_SCL, PIN_INPUT_PULLUP, MUX_MODE0)	/* i2c0_scl.i2c0_scl */
+		>;
+	};
 };
 
 &uart0 {
@@ -153,6 +160,26 @@
 	pinctrl-0 = <&uart0_pins>;
 
 	status = "okay";
+};
+
+&i2c0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c0_pins>;
+
+	status = "okay";
+	clock-frequency = <400000>;
+
+	tsc2007: tsc2007@49 {
+	        compatible = "ti,tsc2007";
+	        reg = <0x49>;
+		interrupt-parent = <&gpio0>;
+		interrupts = <4 IRQ_TYPE_LEVEL_LOW>;
+		gpios = <&gpio0 4 0>;
+		ti,x-plate-ohms = <180>;
+		ti,initial-delay = <10>;
+		ti,report-delay = <5>;
+		ti,sample-delay = <5>;
+	};
 };
 
 &elm {
