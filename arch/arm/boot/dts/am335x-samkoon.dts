@@ -35,6 +35,13 @@
 		device_type = "memory";
 		reg = <0x80000000 0x8000000>; /* 128 MB */
 	};
+
+	backlight {
+		compatible = "pwm-backlight";
+		pwms = <&ecap0 0 50000 0>;
+		brightness-levels = <0 51 53 56 62 75 101 152 255>;
+		default-brightness-level = <8>;
+	};
 };
 
 &am33xx_pinmux {
@@ -66,6 +73,12 @@
 			AM33XX_PADCONF(AM335X_PIN_GPMC_BEN0_CLE, PIN_OUTPUT, MUX_MODE0)
 		>;
 	};
+
+	ecap0_pins: backlight_pins {
+		pinctrl-single,pins = <
+			AM33XX_PADCONF(AM335X_PIN_ECAP0_IN_PWM0_OUT, 0x0, MUX_MODE0)
+		>;
+	};
 };
 
 &uart0 {
@@ -77,6 +90,16 @@
 
 &elm {
 	status = "okay";
+};
+
+&epwmss0 {
+	status = "okay";
+
+	ecap0: ecap@100 {
+		status = "okay";
+		pinctrl-names = "default";
+		pinctrl-0 = <&ecap0_pins>;
+	};
 };
 
 &gpmc {
