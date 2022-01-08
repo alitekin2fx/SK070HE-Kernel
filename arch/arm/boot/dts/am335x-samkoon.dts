@@ -203,7 +203,20 @@
 		ti,report-delay = <5>;
 		ti,sample-delay = <5>;
 	};
+
+	bq32000: rtc@68 {
+		compatible = "ti,bq32000";
+		trickle-resistor-ohms = <1120>;
+		reg = <0x68>;
+		status = "okay";
+	};
 };
+
+/*
+&rtc {
+	status = "disabled";
+};
+*/
 
 &elm {
 	status = "okay";
