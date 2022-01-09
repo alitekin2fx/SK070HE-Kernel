@@ -30,6 +30,13 @@
 		reg = <0x80000000 0x8000000>; /* 128 MB */
 	};
 
+	beeper: beeper {
+		compatible = "gpio-beeper";
+		pinctrl-names = "default";
+		pinctrl-0 = <&beeper_pins_default>;
+		gpios = <&gpio0 6 GPIO_ACTIVE_HIGH>;
+	};
+
 	backlight {
 		compatible = "pwm-backlight";
 		pwms = <&ecap0 0 50000 0>;
@@ -79,6 +86,12 @@
 		pinctrl-single,pins = <
 			AM33XX_PADCONF(AM335X_PIN_UART0_RXD, PIN_INPUT_PULLUP, MUX_MODE0)
 			AM33XX_PADCONF(AM335X_PIN_UART0_TXD, PIN_OUTPUT_PULLDOWN, MUX_MODE0)
+		>;
+	};
+
+	beeper_pins_default: beeper_pins_default {
+		pinctrl-single,pins = <
+			AM33XX_PADCONF(AM335X_PIN_SPI0_CS1, PIN_OUTPUT_PULLDOWN, MUX_MODE7)	/* spi0_cs1.gpio0_6 */
 		>;
 	};
 
